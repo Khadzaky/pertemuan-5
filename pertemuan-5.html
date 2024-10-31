@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manipulasi DOM</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        color: #333;
+      }
+      input[type="text"] {
+        padding: 10px;
+        margin-right: 10px;
+        width: 300px;
+      }
+      button {
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        background: khaki;
+        margin: 5px 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .edit {
+        margin-right: 10px;
+        cursor: pointer;
+        color: blue;
+      }
+      .delete {
+        cursor: pointer;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Daftar Tugas Harian</h1>
+    <input type="text" id="taskInput" placeholder="Masukkan tugas baru" />
+    <button id="addTaskBtn">Tambah Tugas</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+      const taskInput = document.getElementById("taskInput");
+      const addTaskBtn = document.getElementById("addTaskBtn");
+      const taskList = document.getElementById("taskList");
+
+      addTaskBtn.addEventListener("click", addTask);
+
+      function addTask() {
+        const taskText = taskInput.value.trim();
+        if (taskText === "") {
+          alert("Tugas tidak boleh kosong!");
+          return;
+        }
+
+        const li = document.createElement("li");
+        li.innerHTML = `
+                ${taskText}
+                <span class="edit" onclick="editTask(this)">Edit</span>
+                <span class="delete" onclick="deleteTask(this)">Hapus</span>
+            `;
+        taskList.appendChild(li);
+        taskInput.value = "";
+      }
+
+      function deleteTask(element) {
+        const li = element.parentElement;
+        taskList.removeChild(li);
+      }
+
+      function editTask(element) {
+        const li = element.parentElement;
+        const taskText = li.firstChild.textContent.trim();
+        const newTask = prompt("Edit tugas:", taskText);
+        if (newTask !== null && newTask.trim() !== "") {
+          li.firstChild.textContent = newTask.trim();
+        }
+      }
+    </script>
+  </body>
+</html>
